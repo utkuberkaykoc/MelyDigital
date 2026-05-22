@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hakkımda – Mely</title>
+  <link rel="icon" type="image/x-icon"href="../images/Mely.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@200;300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Mouse Memoirs';
+      src: url('../fontlar/MadimiOne-Regular.ttf') format('truetype');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Renk paletini orijinal tasarıma birebir uyacak şekilde matlaştırdım */
+      --bg-dark: #121811;
+      --card-bg: #82ab66; 
+      --card-light: #82A56E;
+      --accent: #F7D059;
+      --text-main: #FFFFFF;
+      --text-muted: rgba(255, 255, 255, 0.85);
+      --radius: 16px;
+      --gap: 20px;
+      
+      --title-font: 'Public Sans', sans-serif;
+      --body-font: 'Public Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--body-font);
+      background: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 0%, #2A4022 0%, #121811 70%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #ffffff;
+      font-family: var(--body-font);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #e8c84a; }
+
+    .nav-links .active a {
+      background: #f5a623;
+      color: #1a1a1a;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 6px;
+    }
+
+    .nav-links .underline a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .logo-wrap {
+      width: 92px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      font-family: var(--title-font);
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: #ffffff;
+      background: #2a2a2a;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 2px solid #f5a623;
+    }
+
+    /* ══════════════════════════════════════════════════════
+    🔥 İŞTE SİHİR BURADA BAŞLIYOR (COLUMN LAYOUT) 🔥
+    Satırları değil, dikey sütunları hizalıyoruz.
+    Böylece alt kartlar her zaman üsttekinin hemen dibinde başlar!
+    ══════════════════════════════════════════════════════
+    */
+    .masonry-layout {
+      max-width: 1300px;
+      margin: 110px auto 50px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: var(--gap);
+      align-items: stretch;
+    }
+
+    /* Satır 1 kartları: her biri 1 sütun */
+    .card-egitim   { grid-column: 1; grid-row: 1; }
+    .card-diller   { grid-column: 2; grid-row: 1; }
+    .card-projeler { grid-column: 3; grid-row: 1; }
+    .card-beceriler{ grid-column: 4; grid-row: 1; }
+
+    /* Satır 2: Deneyim 2 sütun, Melike ARSLAN 2 sütun */
+    .card-deneyim  { grid-column: 1 / 3; grid-row: 2; }
+    .card-bio      { grid-column: 3 / 5; grid-row: 2; }
+
+    /* ── KART TASARIMI ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .card:hover { transform: translateY(-3px); }
+    
+    .card-light { background: var(--card-light); }
+
+    .card-title,
+    .bio-name,
+    .logo-card h2,
+    .iletisim-card h3 {
+      font-family: 'Mouse Memoirs', sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      text-transform: none;
+    }
+
+    .card-title {
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 6px;
+      color: var(--text-main);
+    }
+
+    /* ── LİSTE/TİMELİNE YAPILARI ── */
+    .list-item {
+      display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;
+    }
+    .list-item:last-child { margin-bottom: 0; }
+    
+    .item-left {
+      display: flex; gap: 6px; align-items: flex-start;
+      color: var(--accent); font-weight: 300; font-style: italic; font-size: 0.95rem;
+      flex-shrink: 0; width: 105px;
+    }
+    .item-left.narrow { width: 75px; } /* Diller vs için */
+    .item-left i { font-style: normal; font-size: 0.8rem; margin-top: 1px; }
+    
+    .item-right { display: flex; flex-direction: column; gap: 3px; }
+    .item-title { font-weight: 600; font-size: 1.05rem; }
+    .item-sub { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; font-style: italic; }
+
+    /* ── DENEYİM ── */
+    .exp-item {
+      display: flex;
+      gap: 16px;
+      padding: 12px;
+      background: rgb(0, 0, 0, 0.1);
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .exp-item:last-child { margin-bottom: 0; }
+    .exp-date {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-style: italic;
+      font-weight: 300;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .exp-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    /* ── DİLLER ── */
+    .lang-item { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .lang-item:last-child { margin-bottom: 0; }
+    .lang-top { display: flex; justify-content: space-between; align-items: baseline; }
+    .lang-name { font-weight: 600; font-size: 1.05rem; }
+    .lang-level { font-size: 0.8rem; color: var(--accent); font-style: italic; font-weight: 300; }
+    .lang-bar {
+      width: 100%; height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 99px; overflow: hidden;
+    }
+    .lang-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 99px;
+    }
+
+    .lang-gallery {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .lang-gallery-item {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 1px;
+      overflow: hidden;
+      background: transparent;
+    }
+    .lang-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── PROJELER YENİ ── */
+    .project-card-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px; margin-bottom: 10px;
+      background: rgb(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+    .project-card-item:last-child { margin-bottom: 0; }
+    .project-card-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .project-card-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .project-date { font-size: 0.78rem; color: var(--accent); font-style: italic; font-weight: 300; margin-top: 2px; }
+
+    /* ── PROJELER ÖZEL ── */
+    .project-info { display: flex; align-items: center; gap: 10px; }
+    .project-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    /* ── BECERİLER & ARAÇLAR ── */
+    .skills-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .skill-row { display: flex; align-items: center; gap: 8px; font-size: 1rem; font-weight: 300; }
+    .skill-row::before { content: '✦'; color: var(--accent); font-size: 0.8rem; }
+    
+    .tools-container { display: flex; gap: 12px; }
+    .tool-box {
+      width: 45px; height: 45px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.8rem; color: white;
+      overflow: hidden;
+    }
+    .tool-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .t-canva { background: #00C4CC; }
+    .t-ps { background: #001E36; border: 2px solid #31A8FF; color: #31A8FF; }
+    .t-ai { background: #330000; border: 2px solid #FF9A00; color: #FF9A00; }
+
+    /* ── BIO KARTI ── */
+    .bio-wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .bio-content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .bio-name { font-size: 2.4rem; line-height: 1; margin-bottom: 4px; }
+    .bio-line { width: 40px; height: 3px; background: var(--accent); border-radius: 2px; }
+    .bio-text { font-size: 0.95rem; color: var(--text-muted); font-weight: 200; font-style: italic; line-height: 1.6; }
+    
+    .bio-img-container {
+      width: 250px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 3px solid var(--accent); overflow: hidden;
+      background: rgba(255,255,255,0.1);
+    }
+    .bio-img-container img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .img-placeholder { font-size: 0.8rem; color: rgba(255,255,255,0.5); text-align: center; }
+
+    /* ── MELY & İLETİŞİM ── */
+    .logo-card {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 120px;
+      background: transparent;
+    }
+    .logo-card h2 {
+      font-size: 3.5rem; letter-spacing: 4px; margin: 0;
+    }
+
+    .logo-card img {
+      width: auto; height: auto;
+    }
+    
+    .iletisim-card h3 {
+      font-size: 1.6rem; line-height: 1.2; font-weight: 600;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .masonry-layout { grid-template-columns: 1fr 1fr; }
+      .card-egitim   { grid-column: 1; grid-row: 1; }
+      .card-diller   { grid-column: 2; grid-row: 1; }
+      .card-projeler { grid-column: 1; grid-row: 2; }
+      .card-beceriler{ grid-column: 2; grid-row: 2; }
+      .card-deneyim  { grid-column: 1; grid-row: 3; }
+      .card-bio      { grid-column: 2; grid-row: 3; }
+      .bio-img-container { width: 180px; }
+    }
+    @media (max-width: 768px) {
+      .masonry-layout { grid-template-columns: 1fr; }
+      .card-egitim, .card-diller, .card-projeler,
+      .card-beceriler, .card-deneyim, .card-bio { grid-column: 1; grid-row: auto; }
+      .bio-wrapper { flex-direction: column; }
+      .bio-img-container {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        margin: 0 auto;
+      }
+      .bio-img-container img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+      }
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 13px; }
+      .nav-links .active a { padding: 5px 12px; }
+    }
+    @media (max-width: 480px) {
+      .nav-links { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://mely.digital/">Anasayfa</a></li>
+      <li class="active"><a href="#">Hakkımda</a></li>
+      <li><a href="https://www.behance.net/melikearsllaann" target="_blank">Portfolyo</a></li>
+      <li><a href="../contact/">İletişim</a></li>
+    </ul>
+    <div class="logo-wrap">
+      <img src="../images/Mely.png" alt="Mely" loading="eager" decoding="async" fetchpriority="high">
+    </div>
+  </nav>
+
+  <main class="masonry-layout">
+
+    <!-- SATIR 1 -->
+    <div class="card card-egitim">
+      <h2 class="card-title">Eğitim</h2>
+      <div class="list-item">
+        <div class="item-left" style="white-space: nowrap;"><i>✦</i> 2022 - Devam</div>
+        <div class="item-right">
+          <span class="item-title">İstanbul Kent Üniversitesi</span>
+          <span class="item-sub">Halkla İlişkiler ve Reklamcılık</span>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="item-left"><i>✦</i> 2017 - 2021</div>
+        <div class="item-right">
+          <span class="item-title">Küçükköy Mesleki ve Teknik Anadolu Lisesi</span>
+          <span class="item-sub">El Sanatları</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-diller">
+      <h2 class="card-title">Diller</h2>
+      <div class="lang-item">
+        <div class="lang-top">
+          <span class="lang-name">Türkçe</span>
+          <span class="lang-level">Anadil</span>
+        </div>
+        <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-top">
+          <span class="lang-name">İngilizce</span>
+          <span class="lang-level">Acemi</span>
+        </div>
+        <div class="lang-bar"><div class="lang-fill" style="width:20%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-top">
+          <span class="lang-name">Korece</span>
+          <span class="lang-level">Acemi</span>
+        </div>
+        <div class="lang-bar"><div class="lang-fill" style="width:15%"></div></div>
+      </div>
+      <div class="lang-gallery">
+        <div class="lang-gallery-item">
+          <img src="../images/dil.webp" alt="Dil görseli 1" loading="lazy" decoding="async">
+        </div>
+        <div class="lang-gallery-item">
+          <img src="../images/dil2.webp" alt="Dil görseli 2" loading="lazy" decoding="async">
+        </div>
+        <div class="lang-gallery-item">
+          <img src="../images/dil3.webp" alt="Dil görseli 3" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-projeler">
+      <h2 class="card-title">Projeler</h2>
+      <div class="project-card-item">
+        <div class="project-card-icon">
+          <img src="../images/Marka_Fabrikas_Logo.png" alt="Marka Fabrikası" loading="eager" decoding="async">
+        </div>
+        <div class="item-right">
+          <span class="item-title">Marka Fabrikası</span>
+          <span class="item-sub">İstanbul Kent Üniversitesi</span>
+          <span class="project-date">Ocak 2026</span>
+        </div>
+      </div>
+      <div class="project-card-item">
+        <div class="project-card-icon">
+          <img src="../images/concity_logo.png" alt="ConCity" loading="eager" decoding="async">
+        </div>
+        <div class="item-right">
+          <span class="item-title">ConCity</span>
+          <span class="item-sub">Minecraft Sunucusu</span>
+          <span class="project-date">Aralık 2023</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-beceriler">
+      <h2 class="card-title">Beceriler</h2>
+      <div class="skills-list">
+        <div class="skill-row">Branding</div>
+        <div class="skill-row">Logo Tasarım</div>
+        <div class="skill-row">Grafik Tasarım</div>
+        <div class="skill-row">Metin Yazarlığı</div>
+        <div class="skill-row">Sosyal Medya Yönetimi</div>
+      </div>
+      <div class="tools-container">
+        <div class="tool-box t-canva"><img src="../images/canva.webp" alt="Canva" loading="lazy" decoding="async"></div>
+        <div class="tool-box t-ps"><img src="../images/ps.webp" alt="Adobe Photoshop" loading="lazy" decoding="async"></div>
+        <div class="tool-box t-ai"><img src="../images/adobe.webp" alt="Adobe Illustrator" loading="lazy" decoding="async"></div>
+      </div>
+    </div>
+
+    <!-- SATIR 2 -->
+    <div class="card card-deneyim">
+      <h2 class="card-title">Deneyim</h2>
+      <div class="exp-item">
+        <div class="exp-date">Şub 2026 – Devam</div>
+        <div class="exp-content">
+          <span class="item-title">Freelance</span>
+          <span class="item-sub">Grafik Tasarımcı</span>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Eki 2025 – Devam</div>
+        <div class="exp-content">
+          <span class="item-title">İstanbul Kent Üniversitesi Yaşam Boyu Eğitim Merkezi (KÜYEM)</span>
+          <span class="item-sub">Grafik Tasarım ve Dijital İçerik Üreticisi Stajyeri</span>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Mrt 2020 – Devam</div>
+        <div class="exp-content">
+          <span class="item-title">Minecraft Evi (Buğra Kazancı), YouTuber</span>
+          <span class="item-sub">Topluluk Yöneticisi, Ekip Yönetimi, Moderasyon ve Destek Sorumlusu, Dijital İçerik ve Topluluk Uzmanı, Oyun Sunucusu Geliştirici, Dijital İçerik Üreticisi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-bio">
+      <div class="bio-wrapper">
+        <div class="bio-content">
+          <h2 class="bio-name">Melike ARSLAN</h2>
+          <div class="bio-line"></div>
+          <p class="bio-text">Merhaba, ben Melike (namıdiğer Mely).<br>22 yaşındayım ve İstanbul Kent Üniversitesi Halkla İlişkiler ve Reklamcılık bölümü öğrencisiyim.</p>
+          <p class="bio-text">Dört yıldır halkla ilişkiler ve reklamcılık alanında eğitim alıyor; özellikle kurumsal iletişim ve grafik tasarım alanlarında kendimi geliştirmeye odaklanıyorum.</p>
+          <p class="bio-text">Sürekli öğrenmeye açık bir yapıya sahip olarak, hem görsel hem de stratejik bakış açımı güçlendirerek kendimi profesyonel anlamda ileri taşımayı hedefliyorum.</p>
+        </div>
+        <div class="bio-img-container">
+          <img src="../images/melike_kendi.webp" alt="Melike Arslan" onerror="this.style.display='none';" />
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

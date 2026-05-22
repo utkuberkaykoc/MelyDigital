@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>İletişim – Mely</title>
+  <link rel="icon" type="image/x-icon"href="../images/Mely.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Mouse Memoirs';
+      src: url('../fontlar/MadimiOne-Regular.ttf') format('truetype');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:  #1a2e1a;
+      --green-mid:   #2e4a2e;
+      --green-light: #4a7a4a;
+      --accent:      #f5a623;
+      --accent2:     #e8c84a;
+      --white:       #ffffff;
+      --card-bg:     rgba(255,255,255,0.07);
+      --card-border: rgba(255,255,255,0.15);
+      --radius:      18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Public Sans', sans-serif;
+      background: var(--green-dark);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND GRADIENT MESH ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 10%, #3a6b3a 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, #2a5a2a 0%, transparent 60%),
+        radial-gradient(ellipse 80% 40% at 50% 50%, #0e1e0e 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-family: 'Public Sans', sans-serif;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Public Sans', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent2); }
+
+    .nav-links .active a {
+      background: var(--accent);
+      color: #1a1a1a;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 6px;
+    }
+
+    .nav-links .underline a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .logo-wrap {
+      width: 92px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .logo-text {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--white);
+      background: #2a2a2a;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 2px solid var(--accent);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .contact-layout {
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    /* ── CHARACTER SIDE ── */
+    .char-side {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .char-side img {
+      width: 100%;
+      max-width: 400px;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 40px rgba(0,0,0,0.5));
+      display: block;
+    }
+
+    /* ── CONTENT SIDE ── */
+    .content-side {
+      flex: 1;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .page-label {
+      font-family: 'Public Sans', sans-serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--accent2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
+
+    .page-title {
+      font-family: 'Mouse Memoirs', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .page-subtitle {
+      font-family: 'Public Sans', sans-serif;
+      font-style: italic;
+      font-size: clamp(0.88rem, 1.8vw, 1rem);
+      color: rgba(255,255,255,0.78);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+
+    /* ── SOCIAL BUTTONS ── */
+    .social-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Public Sans', sans-serif;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s ease, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    }
+
+    /* Individual brand accents on hover */
+    .social-btn.behance:hover  { background: rgba(23,105,255,0.22); border-color: rgba(23,105,255,0.5); }
+    .social-btn.linkedin:hover { background: rgba(10,102,194,0.22); border-color: rgba(10,102,194,0.5); }
+    .social-btn.instagram:hover{ background: rgba(214,41,118,0.22); border-color: rgba(214,41,118,0.5); }
+    .social-btn.discord:hover  { background: rgba(88,101,242,0.22); border-color: rgba(88,101,242,0.5); }
+    .social-btn.mail:hover     { background: rgba(232,200,74,0.18); border-color: rgba(232,200,74,0.5); color: var(--accent2); }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .social-icon svg { display: block; }
+
+    .behance  .social-icon { background: rgba(23,105,255,0.25); }
+    .linkedin .social-icon { background: rgba(10,102,194,0.25); }
+    .instagram .social-icon { background: rgba(214,41,118,0.25); }
+    .discord  .social-icon { background: rgba(88,101,242,0.25); }
+    .mail     .social-icon { background: rgba(232,200,74,0.2); }
+
+    .social-label {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .social-name {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+    }
+    .social-handle {
+      font-size: 11.5px;
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.15) 70%, transparent);
+      margin: 36px 0;
+    }
+
+    /* ── COFFEE NOTE ── */
+    .coffee-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: 12px;
+      padding: 14px 20px;
+      max-width: 380px;
+    }
+    .coffee-note span {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .coffee-note p {
+      font-family: 'Public Sans', sans-serif;
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.55;
+    }
+
+    .page-title {
+      font-family: 'Mouse Memoirs', sans-serif;
+    }
+    .coffee-note p strong {
+      color: var(--accent2);
+      font-style: normal;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .contact-layout {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 32px;
+      }
+      .char-side {
+        flex: unset;
+        width: 100%;
+        max-width: 280px;
+      }
+      .page-subtitle { max-width: 100%; }
+      .social-grid { justify-content: center; }
+      .coffee-note { margin: 0 auto; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 13px; }
+      .nav-links .active a { padding: 5px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { gap: 12px; }
+      .logo-text { font-size: 18px; }
+      .social-btn { padding: 10px 14px; }
+      .social-icon { width: 30px; height: 30px; }
+      .char-side { max-width: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://mely.digital/">Anasayfa</a></li>
+      <li><a href="../about/">Hakkımda</a></li>
+      <li><a href="https://www.behance.net/melikearsllaann" target="_blank">Portfolyo</a></li>
+      <li class="active"><a href="#">İletişim</a></li>
+    </ul>
+    <div class="logo-wrap">
+      <img src="../images/Mely.png" alt="Mely" loading="eager" decoding="async" fetchpriority="high">
+    </div>
+  </nav>
+
+  <!-- ── PAGE ── -->
+  <main class="page">
+    <div class="contact-layout">
+
+      <!-- Karakter -->
+      <div class="char-side">
+          <img src="../images/Iletisim.webp" alt="Mely karakteri el sallıyor" loading="eager" decoding="async" fetchpriority="high">
+      </div>
+
+      <!-- İçerik -->
+      <div class="content-side">
+        <h1 class="page-title">Bana aşağıdaki<br>kutucuklardan<br>ulaşabilirsin!</h1>
+        <p class="page-subtitle">
+          Yeni bir proje fikrin mi var, yoksa sadece bir merhaba demek mi istiyorsun?
+          Bir kahve eşliğinde fikirlerini dinlemek için sabırsızlanıyorum.
+        </p>
+
+        <!-- Sosyal medya butonları -->
+        <div class="social-grid">
+
+          <a href="https://www.behance.net/melikearsllaann" target="_blank" class="social-btn behance">
+            <div class="social-icon">
+              <!-- Behance -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.5 7H4v10h5.5c2.2 0 3.5-1.1 3.5-2.8 0-1.2-.6-2-1.6-2.4.8-.4 1.3-1.1 1.3-2.1C12.7 8 11.5 7 9.5 7zM8.8 11H6V9h2.8c.8 0 1.2.3 1.2.9S9.6 11 8.8 11zm.4 4.1H6V13h3.2c.9 0 1.4.4 1.4 1S10 15.1 9.2 15.1zM15.5 8.5h4v1h-4zM17.5 11c-1.9 0-3.2 1.3-3.2 3.2s1.3 3.2 3.3 3.2c1.4 0 2.4-.6 2.9-1.7h-1.8c-.2.4-.6.6-1.1.6-.8 0-1.3-.5-1.4-1.4H21v-.4c0-2.1-1.3-3.5-3.5-3.5zm-1.3 2.6c.1-.8.6-1.3 1.3-1.3.8 0 1.3.5 1.3 1.3h-2.6z" fill="white"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="https://www.linkedin.com/in/melikearsllaann" target="_blank" class="social-btn linkedin">
+            <div class="social-icon">
+              <!-- LinkedIn -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="4" cy="4" r="2" stroke="white" stroke-width="1.6"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="https://www.instagram.com/melikearsllaann" target="_blank" class="social-btn instagram">
+            <div class="social-icon">
+              <!-- Instagram -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="white"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="https://discord.com/users/555096817776328764" target="_blank" class="social-btn discord">
+            <div class="social-icon">
+              <!-- Discord -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 00-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 00-5.487 0 12.36 12.36 0 00-.617-1.23A.077.077 0 008.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 00-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 00.031.055 20.03 20.03 0 005.993 2.98.078.078 0 00.084-.026 13.83 13.83 0 001.226-1.963.074.074 0 00-.041-.104 13.175 13.175 0 01-1.872-.878.075.075 0 01-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 01.078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 01.079.009c.12.098.245.195.372.288a.075.075 0 01-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 00-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 00.084.028 19.963 19.963 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z" fill="white"/>
+              </svg>
+            </div>
+          </a>
+
+          <a href="mailto:contact@mely.digital" class="social-btn mail">
+            <div class="social-icon">
+              <!-- Mail -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="#e8c84a" stroke-width="1.6"/>
+                <path d="M3 7l9 6 9-6" stroke="#e8c84a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+
+        </div><!-- /social-grid -->
+
+      </div><!-- /content-side -->
+    </div><!-- /contact-layout -->
+  </main>
+
+</body>
+</html>
